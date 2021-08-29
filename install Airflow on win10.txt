@@ -55,4 +55,7 @@ airflow scheduler
 airflow webserver 
 # access the UI on localhost:8080 in your browser
 
+13) Create firstime user by running below command
+
+FLASK_APP=airflow.www.app flask fab create-admin
 
