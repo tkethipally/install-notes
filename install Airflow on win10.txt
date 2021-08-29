@@ -1,0 +1,58 @@
+Steps to Install Apache Airflow without Docker
+Airflow version at my time of install 2.1.3
+
+Reference : https://towardsdatascience.com/run-apache-airflow-on-windows-10-without-docker-3c5754bb98b4
+
+Packages required
+Ubuntu from Microsoft Store (I did Ubuntu20.04)
+
+1) Install Ubuntu from Microsoft Store
+2) Install WSL (Windows Subsystem for Linux) from 
+https://docs.microsoft.com/en-us/windows/wsl/install-win10#step-4---download-the-linux-kernel-update-package
+
+3) Turn Windows Features On / Off --> Enable Windows Subsystem for Linux
+4) Reboot , open cmd and type ubuntu2004
+5) For only first time, it will ask to create username and password to login
+6) Close cmd and reopen, then type wsl
+7) Run Below commands
+sudo apt update && sudo apt upgrade
+sudo apt-get install software-properties-common
+sudo apt-add-repository universe
+sudo apt-get update
+sudo apt-get install python3-pip
+alias pip='pip3'
+
+8) Install Apache Airflow
+pip install apache-airflow
+
+9) It should install without errors. In my case sqlalchemy package is not supported. So i uninstalled and installed compatible sqlalchemy
+pip uninstall sqlalchemy
+pip install SQLAlchemy=='1.3.18'
+
+10) sudo nano /etc/wsl.conf
+Insert below lines
+
+[automount] 
+root = / 
+options = "metadata"
+
+save and exit with ctrl+s ctrl+x
+
+11)nano ~/.bashrc
+
+export AIRFLOW_HOME=/home/tarun/airflow
+
+12) Restart cmd, type wsl and run
+airflow info
+
+# check whether AIRFLOW_HOME was set correctly 
+env | grep AIRFLOW_HOME 
+# initialize database in AIRFLOW_HOME 
+airflow db init
+# initialize scheduler 
+airflow scheduler 
+# use the second cmd window to run 
+airflow webserver 
+# access the UI on localhost:8080 in your browser
+
+
